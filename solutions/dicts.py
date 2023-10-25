@@ -13,13 +13,16 @@ def get_information(data, outer_key, inner_key):
     Parameters:
     - data: A nested dictionary
     - outer_key: Key of the outer dictionary
-    - inner_key: Key of the inner dictionary within the outer dictionary
+    - outer_key: Key of the inner dictionary within the outer dictionary
 
     Returns:
     - Value associated with the inner key or None if the keys are not found.
     """
     # Your code here
-    pass
+    if outer_key in data:
+        if inner_key in data[outer_key]:
+            return data[outer_key][inner_key]
+        return None
 
 
 # 2. Add Information:
@@ -36,7 +39,10 @@ def add_information(data, outer_key, inner_key, value):
     - Modified data with the new value
     """
     # Your code here
-    pass
+    if outer_key not in data:
+        data[outer_key]={}
+    data[outer_key][inner_key]=value
+    return data
 
 
 # 3. Remove Information:
@@ -52,7 +58,9 @@ def remove_information(data, outer_key, inner_key):
     - Modified data with the key-value pair removed or original data if the keys are not found.
     """
     # Your code here
-    pass
+    if outer_key in data and inner_key in data[outer_key]:
+        del data[outer_key][inner_key]
+    return data
 
 
 # --- Advanced Operations ---
@@ -69,8 +77,14 @@ def get_nested_value(data, key_chain):
     - Value at the end of the key chain or None if the path doesn't exist.
     """
     # Your code here
-    pass
-
+    
+    current_dict=data
+    for key in key_chain:
+        if key in current_dict:
+            current_dict = current_dict[key]
+        else:
+             return None
+    return current_dict
 
 # 5. Set Nested Value:
 # Modify the nested dictionary to set a value at a specific key chain.
@@ -85,6 +99,13 @@ def set_nested_value(data, key_chain, value):
     - Modified data with the value set at the specified key chain.
     """
     # Your code here
-    pass
-
+    current_dict = data
+    for key in key_chain[:-1]:
+        if key in current_dict:
+            current_dict = current_dict[key]
+        else:
+            current_dict[key] = {}
+            current_dict = current_dict[key]
+    current_dict[key_chain[-1]] = value
+    return data
 
